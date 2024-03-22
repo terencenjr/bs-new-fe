@@ -1,19 +1,15 @@
+import { configApiRef, createApiFactory } from '@backstage/core-plugin-api';
 import {
   ScmIntegrationsApi,
   scmIntegrationsApiRef,
-  ScmAuth,
 } from '@backstage/integration-react';
-import {
-  AnyApiFactory,
-  configApiRef,
-  createApiFactory,
-} from '@backstage/core-plugin-api';
 
-export const apis: AnyApiFactory[] = [
-  createApiFactory({
+import { createApiExtension } from '@backstage/frontend-plugin-api';
+
+export const scmIntegrationsApi = createApiExtension({
+  factory: createApiFactory({
     api: scmIntegrationsApiRef,
     deps: { configApi: configApiRef },
     factory: ({ configApi }) => ScmIntegrationsApi.fromConfig(configApi),
   }),
-  ScmAuth.createDefaultApiFactory(),
-];
+});
